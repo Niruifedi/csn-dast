@@ -9,8 +9,21 @@ jobs:
     test:
         runs-on: ubuntu-latest
         steps:
-            - name: checkout repository
-              uses: actions/checkout
+            - name: Checkout repository
+              uses: actions/checkout@v4
             - name: SAST Scan
-              run: grep -r -e "password" -e "secret" -e "keys"
+              run: |
+                grep -r -e "password" -e "secret" -e "keys" .
                 grep -Ri -w '(password|passwd|pass|secret|keys)' .
+
+    deploy:
+        runs-on: ubuntu-latest
+        needs: test
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+            - name: Deploy to Github Pages
+            uses: peaceiris/actions-gh-pages@v4
+            with:
+                github_token: ${{ secrets.CSN_TOKEN }
+                publish_dir: .
