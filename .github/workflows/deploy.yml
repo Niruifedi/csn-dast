@@ -12,4 +12,5 @@ jobs:
             - name: checkout repository
               uses: actions/checkout
             - name: SAST Scan
-              run: grep -Ri -w '(password|passwd|pass|secret|keys)' .
+              run: grep -r -e "password" -e "secret" -e "keys"
+                grep -Ri -w '(password|passwd|pass|secret|keys)' .
